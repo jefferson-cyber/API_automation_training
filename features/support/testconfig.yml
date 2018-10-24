@@ -14,4 +14,3 @@ global: &global
 api:
     host: https://reqres.in
     secure_scheme: true
-
