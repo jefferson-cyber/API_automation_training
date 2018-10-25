@@ -41,7 +41,7 @@ Then(/^the user is added$/) do
 end
 
 Given(/^I want to update a user$/) do
-  @json = create_user
+  @json = update_user
   @request = 'put'
 end
 

@@ -39,5 +39,6 @@ def update_user
   @user = User.new
   @user.first_name = 'John'
   @user.last_name = 'Doe'
-  @user.address[0].house = 23
+  @user.address[0].house = '23'
+  JSON.generate(@user)
 end
