@@ -22,6 +22,8 @@ When(/^I send an api request$/) do
       send_get(TestConfig['host'], '/api/users')
     when 'post'
       send_post(TestConfig['host'], '/api/users', @json)
+    when 'put'
+      send_put(TestConfig['host'], '/api/users/1', @json)
     else
       raise('Request method not available')
   end
@@ -37,3 +39,16 @@ Then(/^the user is added$/) do
   id = JSON.parse(@response.body)['id']
   p "Your User ID is: #{id}"
 end
+
+Given(/^I want to update a user$/) do
+  @json = create_user
+  @request = 'put'
+end
+
+And(/^the user is updated$/) do
+  expect(JSON.parse(@response.body)['first_name']).to eq(@user.first_name)
+  expect(JSON.parse(@response.body)['last_name']).to eq(@user.last_name)
+  expect(JSON.parse(@response.body)['address'][0]['house']).to eq(@user.address[0].house)
+  expect(JSON.parse(@response.body)['updatedAt'].to_s[0..9]).to eq(Time.now.to_s[0..9])
+end
+

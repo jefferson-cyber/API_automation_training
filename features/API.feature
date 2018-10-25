@@ -1,4 +1,4 @@
-@api
+#@api
 Feature: API
 
   Scenario: api get
@@ -10,3 +10,9 @@ Feature: API
     Given I want to add a user
     When I send an api request
     Then the user is added
+  @api
+  Scenario: api put
+    Given I want to update a user
+    When I send an api request
+    Then the response is a success
+    And the user is updated
