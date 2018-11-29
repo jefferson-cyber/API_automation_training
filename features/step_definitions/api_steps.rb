@@ -30,6 +30,8 @@ When(/^I send an api request$/) do
       send_delete(TestConfig['host'], '/api/users/2')
     when 'register'
       send_post(TestConfig['host'], '/api/register', @json)
+    when 'options'
+      send_options(TestConfig['host'], '/api/users/')
     else
       raise('Request method not available')
   end
@@ -98,4 +100,27 @@ Then(/^the following (.*) is returned/) do |response|
   p @response.code
   p @response.message
   expect(JSON.parse(@response.body)['error']).to eq(response)
+end
+
+Then(/^the user is successfully created$/) do
+  p @response.code
+  p @response.message
+  expect(@response.code).to eq('201')
+  expect(@response.message).to eq('Created')
+  expect(JSON.parse(@response.body)['token']).to_not eq(nil)
+#  expect(JSON.parse(@response.body)['token']).to eq()
+end
+
+Given(/^I want to find out the options$/) do
+  @request = 'options'
+end
+
+Then(/^the response is not allowed$/) do
+  p @response.code
+  p @response.message
+  expect(@response.code).to eq('204')
+  expect(@response.message).to eq('No Content')
+  if expect @response.header['access-control-allow-methods'].downcase.include?('options')
+    raise ('Options is included')
+  end
 end
